@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insurance Consultation API v2.0</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            background: #0d1117;
+            color: #c9d1d9;
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #161b22;
+            border-radius: 12px;
+            border: 1px solid #30363d;
+            overflow: hidden;
+        }
+        
+        .header {
+            background: #21262d;
+            padding: 20px 24px;
+            border-bottom: 1px solid #30363d;
+            position: relative;
+        }
+        
+        .title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #58a6ff;
+            margin-bottom: 8px;
+        }
+        
+        .version {
+            color: #7c3aed;
+            font-size: 14px;
+            margin-bottom: 12px;
+        }
+        
+        .description {
+            color: #8b949e;
+            font-size: 14px;
+        }
+        
+        .content {
+            padding: 24px;
+        }
+        
+        .section {
+            margin-bottom: 32px;
+            background: #0d1117;
+            border-radius: 8px;
+            border: 1px solid #30363d;
+        }
+        
+        .section-header {
+            background: #21262d;
+            padding: 16px 20px;
+            border-bottom: 1px solid #30363d;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .method {
+            background: #238636;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .method.post { background: #1f6feb; }
+        .method.put { background: #fb8500; }
+        
+        .endpoint {
+            font-family: 'Monaco', monospace;
+            color: #f0f6fc;
+            font-weight: 600;
+        }
+        
+        .section-body {
+            padding: 20px;
+        }
+        
+        .description-block {
+            background: #0969da20;
+            border-left: 4px solid #1f6feb;
+            padding: 12px 16px;
+            margin-bottom: 16px;
+            border-radius: 0 6px 6px 0;
+        }
+        
+        .code-block {
+            background: #010409;
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            padding: 16px;
+            margin: 12px 0;
+            overflow-x: auto;
+        }
+        
+        .code {
+            font-family: 'Monaco', monospace;
+            font-size: 13px;
+            color: #c9d1d9;
+        }
+        
+        .key {
+            color: #79c0ff;
+        }
+        
+        .string {
+            color: #a5d6ff;
+        }
+        
+        .number {
+            color: #79c0ff;
+        }
+        
+        .comment {
+            color: #8b949e;
+            font-style: italic;
+        }
+        
+        .success {
+            color: #3fb950;
+        }
+        
+        .warning {
+            color: #d29922;
+        }
+        
+        .error {
+            color: #f85149;
+        }
+        
+        .params {
+            margin: 16px 0;
+        }
+        
+        .param {
+            display: flex;
+            margin: 8px 0;
+            padding: 8px 12px;
+            background: #0d1117;
+            border-radius: 4px;
+            border-left: 3px solid #30363d;
+        }
+        
+        .param-name {
+            color: #ffa657;
+            font-weight: 600;
+            min-width: 120px;
+        }
+        
+        .param-type {
+            color: #7c3aed;
+            font-size: 12px;
+            margin-right: 12px;
+            min-width: 60px;
+        }
+        
+        .param-desc {
+            color: #c9d1d9;
+            flex: 1;
+        }
+        
+        .optional {
+            background: #7c3aed;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 10px;
+            margin-left: 8px;
+        }
+        
+        .status-code {
+            display: inline-block;
+            background: #238636;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 12px;
+            margin-right: 8px;
+        }
+        
+        .status-code.async {
+            background: #fb8500;
+        }
+        
+        .footer {
+            background: #21262d;
+            padding: 16px 24px;
+            border-top: 1px solid #30363d;
+            text-align: center;
+        }
+        
+        .cta-button {
+            background: #238636;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            font-family: 'Monaco', monospace;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: background 0.2s;
+        }
+        
+        .cta-button:hover {
+            background: #2ea043;
+        }
+        
+        .workflow {
+            background: #0969da20;
+            border: 1px solid #1f6feb;
+            border-radius: 6px;
+            padding: 16px;
+            margin: 16px 0;
+        }
+        
+        .workflow-title {
+            color: #58a6ff;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="title">Insurance Consultation API</h1>
+            <div class="version">v2.0.0-stable</div>
+            <p class="description">A comprehensive insurance advisory service with standardized consultation workflow and risk assessment pipeline.</p>
+        </div>
+        
+        <div class="content">
+            <!-- Step 1 -->
+            <div class="section">
+                <div class="section-header">
+                    <span class="method">GET</span>
+                    <span class="endpoint">/consultation/initial</span>
+                    <span class="optional">~60min</span>
+                </div>
+                <div class="section-body">
+                    <div class="description-block">
+                        <strong>Purpose:</strong> Initialize consultation session and collect user requirements
+                    </div>
+                    
+                    <div class="params">
+                        <div class="param">
+                            <span class="param-name">insurance_101</span>
+                            <span class="param-type">guide</span>
+                            <span class="param-desc">Basic insurance types and use cases explanation</span>
+                        </div>
+                        <div class="param">
+                            <span class="param-name">case_study</span>
+                            <span class="param-type">object</span>
+                            <span class="param-desc">My family insurance configuration as reference</span>
+                        </div>
+                        <div class="param">
+                            <span class="param-name">requirements</span>
+                            <span class="param-type">array</span>
+                            <span class="param-desc">Collect coverage needs and future planning</span>
+                        </div>
+                        <div class="param">
+                            <span class="param-name">health_check</span>
+                            <span class="param-type">boolean</span>
+                            <span class="param-desc">Standard health declaration walkthrough</span>
+                        </div>
+                    </div>
+                    
+                    <div class="code-block">
+                        <div class="code">
+<span class="comment">// Response Status</span>
+<span class="status-code async">202</span> Accepted - Processing user data
+<span class="comment">// Processing time: 1-3 days</span>
+
+<span class="comment">// Next Steps</span>
+{
+  <span class="key">"action"</span>: <span class="string">"prepare_medical_history"</span>,
+  <span class="key">"optional_privacy_sharing"</span>: <span class="string">"medical_records"</span>,
+  <span class="key">"migration_planning"</span>: <span class="warning">"tax_resident_risk_assessment"</span>
+}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Step 2 -->
+            <div class="section">
+                <div class="section-header">
+                    <span class="method post">POST</span>
+                    <span class="endpoint">/consultation/solution</span>
+                    <span class="optional">~60min</span>
+                </div>
+                <div class="section-body">
+                    <div class="description-block">
+                        <strong>Purpose:</strong> Present customized solution and product comparison analysis
+                    </div>
+                    
+                    <div class="params">
+                        <div class="param">
+                            <span class="param-name">custom_plan</span>
+                            <span class="param-type">object</span>
+                            <span class="param-desc">Tailored insurance configuration with logic explanation</span>
+                        </div>
+                        <div class="param">
+                            <span class="param-name">product_diff</span>
+                            <span class="param-type">comparison</span>
+                            <span class="param-desc">Feature comparison matrix with pros/cons analysis</span>
+                        </div>
+                        <div class="param">
+                            <span class="param-name">offshore_options</span>
+                            <span class="param-type">advisory</span>
+                            <span class="param-desc">HK/International insurance guidance (directional only)</span>
+                        </div>
+                    </div>
+                    
+                    <div class="code-block">
+                        <div class="code">
+<span class="comment">// Response includes</span>
+{
+  <span class="key">"solution_architecture"</span>: <span class="string">"detailed_breakdown"</span>,
+  <span class="key">"recommendation_engine"</span>: <span class="string">"algorithm_explanation"</span>,
+  <span class="key">"edge_cases"</span>: [<span class="string">"offshore_alternatives"</span>]
+}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Step 3 -->
+            <div class="section">
+                <div class="section-header">
+                    <span class="method put">PUT</span>
+                    <span class="endpoint">/consultation/deploy</span>
+                    <span class="optional">OPTIONAL</span>
+                </div>
+                <div class="section-body">
+                    <div class="description-block">
+                        <strong>Purpose:</strong> Production deployment assistance with comprehensive validation
+                    </div>
+                    
+                    <div class="params">
+                        <div class="param">
+                            <span class="param-name">policy_specs</span>
+                            <span class="param-type">docs</span>
+                            <span class="param-desc">Coverage details, terms, and exclusions documentation</span>
+                        </div>
+                        <div class="param">
+                            <span class="param-name">pre_deploy_check</span>
+                            <span class="param-type">validation</span>
+                            <span class="param-desc">Comprehensive checklist and gotchas</span>
+                        </div>
+                        <div class="param">
+                            <span class="param-name">deployment_guide</span>
+                            <span class="param-type">tutorial</span>
+                            <span class="param-desc">Step-by-step application process</span>
+                        </div>
+                    </div>
+                    
+                    <div class="workflow">
+                        <div class="workflow-title">Deployment Pipeline:</div>
+                        <div class="code-block">
+                            <div class="code">
+<span class="comment">// Validation Phase</span>
+validate_user_understanding() → <span class="success">✓</span>
+review_all_conditions() → <span class="success">✓</span>
+confirm_acceptance() → <span class="success">✓</span>
+
+<span class="comment">// Deployment Phase</span>
+generate_application_link()
+provide_step_by_step_guidance()
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <a href="https://calendly.com/siyubian" class="cta-button">git clone insurance-consultation</a>
+        </div>
+    </div>
+</body>
+</html>
